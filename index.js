@@ -2,7 +2,7 @@ const { MongoClient, Decimal128 } = require("mongodb");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const moment = require("moment");
 const assert = require("assert");
-
+const { randomInt } = require("node:crypto");
 async function getCollection() {
   let connectionUrl;
   switch (process.env.DB) {
@@ -53,9 +53,8 @@ async function incrementUsedLimit({
   );
 }
 
-async function test() {
-  const collection = await getCollection();
-  const limitName = `limit_${Date.now()}`;
+async function test(collection) {
+  const limitName = `limit_${Date.now()}_${randomInt(1, 1000_000_000_000)}`;
   const date = moment(new Date()).utc().startOf("day").toDate();
   const totalAmount = 100;
   const result = await Promise.allSettled([
@@ -76,7 +75,19 @@ async function test() {
     successfulOperations.length === 2,
     "There should be no more that 2 successful operations"
   );
-  console.log("Success");
 }
 
-test().catch(console.error);
+async function main() {
+  const collection = await getCollection();
+  for (let i = 0; i <= 20; i++) {
+    try {
+      await test(collection);
+    } catch (error) {
+      console.log(`Attempt ${i} failed`)
+    }
+  }
+}
+
+main()
+  .catch(console.error)
+  .finally(() => process.exit(0));
