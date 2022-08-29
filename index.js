@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, Decimal128} = require("mongodb");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const assert = require("assert");
 
@@ -29,9 +29,9 @@ async function getCollection() {
 
 async function incrementUsedLimit({ collection, limitName, amount, totalAmount }) {
   return collection.findOneAndUpdate(
-    { limitName, totalAmount, usedAmount: { $lt: totalAmount } },
+    { limitName, totalAmount, usedAmount: { $lt:  Decimal128.fromString(totalAmount.toString()) } },
     {
-      $inc: { usedAmount: amount },
+      $inc: { usedAmount:  Decimal128.fromString(amount.toString()) },
     },
     {
       upsert: true,
