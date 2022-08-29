@@ -1,0 +1,28 @@
+{
+  "name": "mongodb-memory-server-foad-issue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:mongo": "cross-env DB=mongo node index.js",
+    "test:fake-mongo": "cross-env DB=fake-mongo node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kontsedal/mongodb-memory-server-FOAD-issue.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kontsedal/mongodb-memory-server-FOAD-issue/issues"
+  },
+  "homepage": "https://github.com/Kontsedal/mongodb-memory-server-FOAD-issue#readme",
+  "dependencies": {
+    "mongodb": "^4.9.0",
+    "mongodb-memory-server": "^8.9.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "prettier": "^2.7.1"
+  }
+}

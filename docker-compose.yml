@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  issue-mongodb:
+    image: mongo
+    restart: always
+    container_name: mongodb
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./mongodb/data:/data/db
+      - ./mongodb/backups:/backups
